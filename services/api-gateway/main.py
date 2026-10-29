@@ -1,13 +1,14 @@
 import os
+
 import httpx
-from fastapi import FastAPI, Depends, HTTPException, Request
+from auth import DEMO_USERS, create_token, verify_password, verify_token
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
 from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
-from auth import create_token, verify_token, verify_password, DEMO_USERS
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 app = FastAPI(title="Transaction Monitoring — API Gateway", version="1.0.0")
 

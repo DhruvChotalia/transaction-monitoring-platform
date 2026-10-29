@@ -1,6 +1,7 @@
 import os
+from datetime import UTC, datetime
+
 from motor.motor_asyncio import AsyncIOMotorClient
-from datetime import datetime, timezone
 
 MONGO_HOST = os.getenv("MONGO_HOST", "mongodb")
 MONGO_PORT = int(os.getenv("MONGO_PORT", 27017))
@@ -18,4 +19,4 @@ def get_collection():
 
 async def log_event(txn: dict) -> None:
     col = get_collection()
-    await col.insert_one({**txn, "_ingested_at": datetime.now(timezone.utc).isoformat()})
+    await col.insert_one({**txn, "_ingested_at": datetime.now(UTC).isoformat()})

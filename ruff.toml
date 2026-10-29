@@ -1,0 +1,7 @@
+[lint]
+ignore = [
+    "BLE001",   # broad exception catch — intentional in service workers
+    "PLW1508",  # int(os.getenv(..., int_default)) — standard pattern
+    "B008",     # Security() in default arg — FastAPI standard pattern
+    "ISC004",   # implicit string concat in tuple — multi-line prompt strings
+]

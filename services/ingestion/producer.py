@@ -1,6 +1,7 @@
 import json
-import redis.asyncio as aioredis
 import os
+
+import redis.asyncio as aioredis
 
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))

@@ -2,11 +2,12 @@
 Send 10,000 synthetic transactions to the platform for live demo.
 Usage: python simulation/send_transactions.py [--count 10000] [--rate 50]
 """
-import asyncio
 import argparse
+import asyncio
 import random
-import uuid
 import time
+import uuid
+
 import httpx
 
 GATEWAY = "http://localhost:8000"

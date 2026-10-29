@@ -2,7 +2,9 @@
 Tests for the ML scorer service.
 Run after `make train-model` has been executed.
 """
-import sys, os
+import os
+import sys
+
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'services', 'ml-scorer'))

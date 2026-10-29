@@ -1,14 +1,13 @@
-import asyncio
 import json
 import os
+
 import redis.asyncio as aioredis
 from fastapi import WebSocket
-from typing import List
 
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 
-_connections: List[WebSocket] = []
+_connections: list[WebSocket] = []
 
 
 async def connect(ws: WebSocket):

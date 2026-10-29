@@ -1,9 +1,10 @@
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
+
+from fastapi import HTTPException, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from fastapi import HTTPException, Security
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 SECRET_KEY = os.getenv("JWT_SECRET", "change-this-secret")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
@@ -18,7 +19,7 @@ DEMO_USERS = {
 
 
 def create_token(username: str) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(hours=EXPIRE_HOURS)
+    expire = datetime.now(UTC) + timedelta(hours=EXPIRE_HOURS)
     return jwt.encode({"sub": username, "exp": expire}, SECRET_KEY, algorithm=ALGORITHM)
 
 

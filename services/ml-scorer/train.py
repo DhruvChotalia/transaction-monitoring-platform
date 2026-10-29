@@ -3,13 +3,14 @@ Train a lightweight GBT fraud classifier and save it to model/gbt_model.pkl.
 Run once before starting the platform: python train.py
 Uses synthetic data matching the transaction schema — no external dataset needed.
 """
-import numpy as np
-import joblib
 import os
+
+import joblib
+import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import roc_auc_score
 
 CATEGORIES = ["shopping_net", "misc_net", "grocery_pos", "gas_transport", "food_dining", "entertainment"]
 CATEGORY_ENCODER = LabelEncoder().fit(CATEGORIES)

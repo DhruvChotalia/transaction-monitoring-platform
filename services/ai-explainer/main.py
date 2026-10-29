@@ -1,12 +1,13 @@
 import asyncio
 import json
 import os
+
 import asyncpg
 import redis.asyncio as aioredis
+from chain import explain_alert
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
-from chain import explain_alert
 
 app = FastAPI(title="AI Explainer Service", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])

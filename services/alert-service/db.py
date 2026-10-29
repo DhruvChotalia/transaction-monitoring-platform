@@ -1,4 +1,5 @@
 import os
+
 import asyncpg
 
 DSN = "postgresql://{user}:{password}@{host}:{port}/{db}".format(

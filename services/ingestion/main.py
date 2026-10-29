@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from mongo import log_event
+from producer import publish_transaction
 from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
-from producer import publish_transaction
-from mongo import log_event
 
 app = FastAPI(title="Ingestion Service", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])

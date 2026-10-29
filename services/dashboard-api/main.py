@@ -1,9 +1,16 @@
 import asyncio
+
+from db import (
+    fetch_alerts,
+    fetch_category_breakdown,
+    fetch_hourly_distribution,
+    fetch_rules,
+    fetch_stats,
+)
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 from ws import connect, disconnect, redis_listener
-from db import fetch_alerts, fetch_stats, fetch_hourly_distribution, fetch_category_breakdown, fetch_rules
 
 app = FastAPI(title="Dashboard API", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -37,7 +44,7 @@ async def websocket_alerts(websocket: WebSocket):
 async def get_alerts(limit: int = 50, offset: int = 0):
     alerts = await fetch_alerts(limit, offset)
     for a in alerts:
-        if "created_at" in a and a["created_at"]:
+        if a.get("created_at"):
             a["created_at"] = a["created_at"].isoformat()
     return alerts
 
@@ -61,6 +68,6 @@ async def get_categories():
 async def get_rules():
     rules = await fetch_rules()
     for r in rules:
-        if "created_at" in r and r["created_at"]:
+        if r.get("created_at"):
             r["created_at"] = r["created_at"].isoformat()
     return rules

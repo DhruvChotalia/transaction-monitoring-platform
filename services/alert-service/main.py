@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+
 import redis.asyncio as aioredis
 from db import insert_alert
 

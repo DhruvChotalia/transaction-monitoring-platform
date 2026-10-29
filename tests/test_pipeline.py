@@ -4,8 +4,9 @@ Requires all services running: make up && make train-model
 """
 import asyncio
 import uuid
-import pytest
+
 import httpx
+import pytest
 
 GATEWAY = "http://localhost:8000"
 DASHBOARD = "http://localhost:8006"

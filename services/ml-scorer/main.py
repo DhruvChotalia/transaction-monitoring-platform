@@ -1,6 +1,7 @@
 import os
-import numpy as np
+
 import joblib
+import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
