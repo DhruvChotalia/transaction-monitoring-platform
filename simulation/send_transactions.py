@@ -40,17 +40,11 @@ def make_transaction(fraud_bias: float = 0.15) -> dict:
         amount = round(random.uniform(800, 8000), 2)
         hour = random.choice([22, 23, 0, 1, 2, 3])
         category = random.choice(["misc_net", "shopping_net", "travel", "entertainment"])
-        lat = round(random.uniform(25, 50), 4)
-        lon = round(random.uniform(-120, -70), 4)
-        home_lat = round(lat + random.uniform(20, 40), 4)
-        home_lon = round(lon + random.uniform(20, 40), 4)
+        geo_dist = round(random.uniform(500, 2000), 1)
     else:
         amount = round(random.uniform(5, 250), 2)
         hour = random.randint(8, 21)
-        lat = round(random.uniform(43, 45), 4)
-        lon = round(random.uniform(-80, -75), 4)
-        home_lat = round(lat + random.uniform(0, 0.5), 4)
-        home_lon = round(lon + random.uniform(0, 0.5), 4)
+        geo_dist = round(random.uniform(0, 50), 1)
 
     merchant_list = MERCHANTS.get(category, ["Unknown"])
     return {
@@ -60,10 +54,8 @@ def make_transaction(fraud_bias: float = 0.15) -> dict:
         "merchant_name": random.choice(merchant_list),
         "cardholder_id": f"CH{random.randint(1000, 9999)}",
         "hour_of_day": hour,
-        "latitude": lat,
-        "longitude": lon,
-        "home_latitude": home_lat,
-        "home_longitude": home_lon,
+        "day_of_week": random.randint(0, 6),
+        "geo_dist": geo_dist,
     }
 
 
@@ -78,7 +70,7 @@ async def send_batch(client: httpx.AsyncClient, token: str, txns: list, results:
     for txn in txns:
         try:
             res = await client.post(f"{GATEWAY}/transactions", json=txn, headers=headers, timeout=5.0)
-            if res.status_code == 200:
+            if res.status_code in (200, 202):
                 results["ok"] += 1
             else:
                 results["err"] += 1

@@ -9,10 +9,13 @@ app = FastAPI(title="Dashboard API", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 Instrumentator().instrument(app).expose(app)
 
+_bg_task = None
+
 
 @app.on_event("startup")
 async def startup():
-    asyncio.create_task(redis_listener())
+    global _bg_task
+    _bg_task = asyncio.ensure_future(redis_listener())
 
 
 @app.get("/health")
