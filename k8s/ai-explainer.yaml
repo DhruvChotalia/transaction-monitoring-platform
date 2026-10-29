@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-explainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-explainer
+  template:
+    metadata:
+      labels:
+        app: ai-explainer
+    spec:
+      containers:
+        - name: ai-explainer
+          image: ghcr.io/dhruvchotaliadev/transaction-monitoring-platform/ai-explainer:latest
+          ports:
+            - containerPort: 8005
+          envFrom:
+            - configMapRef:
+                name: platform-config
+            - secretRef:
+                name: platform-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8005
+            initialDelaySeconds: 5
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-explainer
+spec:
+  selector:
+    app: ai-explainer
+  ports:
+    - port: 8005

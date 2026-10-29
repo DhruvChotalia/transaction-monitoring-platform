@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-scorer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ml-scorer
+  template:
+    metadata:
+      labels:
+        app: ml-scorer
+    spec:
+      containers:
+        - name: ml-scorer
+          image: ghcr.io/dhruvchotaliadev/transaction-monitoring-platform/ml-scorer:latest
+          ports:
+            - containerPort: 8003
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8003
+            initialDelaySeconds: 10
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-scorer
+spec:
+  selector:
+    app: ml-scorer
+  ports:
+    - port: 8003

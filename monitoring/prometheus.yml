@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: api-gateway
+    static_configs:
+      - targets: ["api-gateway:8000"]
+    metrics_path: /metrics
+
+  - job_name: ingestion
+    static_configs:
+      - targets: ["ingestion:8001"]
+    metrics_path: /metrics
+
+  - job_name: rules-engine
+    static_configs:
+      - targets: ["rules-engine:8002"]
+    metrics_path: /metrics
+
+  - job_name: ml-scorer
+    static_configs:
+      - targets: ["ml-scorer:8003"]
+    metrics_path: /metrics
+
+  - job_name: alert-service
+    static_configs:
+      - targets: ["alert-service:8004"]
+    metrics_path: /metrics
+
+  - job_name: ai-explainer
+    static_configs:
+      - targets: ["ai-explainer:8005"]
+    metrics_path: /metrics
+
+  - job_name: dashboard-api
+    static_configs:
+      - targets: ["dashboard-api:8006"]
+    metrics_path: /metrics

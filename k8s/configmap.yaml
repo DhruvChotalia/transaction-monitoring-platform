@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+  namespace: default
+data:
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: monitoring
+  MONGO_HOST: mongodb
+  MONGO_PORT: "27017"
+  MONGO_DB: transactions
+  JWT_ALGORITHM: HS256
+  JWT_EXPIRE_HOURS: "24"
+  INGESTION_URL: http://ingestion:8001
+  ML_SCORER_URL: http://ml-scorer:8003
+  ALERT_SERVICE_URL: http://alert-service:8004
+  AI_EXPLAINER_URL: http://ai-explainer:8005
+  DASHBOARD_API_URL: http://dashboard-api:8006
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: platform-secrets
+  namespace: default
+type: Opaque
+stringData:
+  POSTGRES_USER: monitoring
+  POSTGRES_PASSWORD: monitoring_pass
+  JWT_SECRET: "change-me-in-production-please"
+  ANTHROPIC_API_KEY: ""

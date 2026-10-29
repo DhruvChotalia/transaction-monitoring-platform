@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+    networks:
+      - txn-net
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    networks:
+      - txn-net
+
+volumes:
+  grafana-data:
+
+networks:
+  txn-net:
+    external: true
+    name: transaction-monitoring-platform_txn-net

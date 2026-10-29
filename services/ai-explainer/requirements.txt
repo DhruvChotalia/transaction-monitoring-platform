@@ -1,0 +1,9 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+langchain==0.3.7
+langchain-anthropic==0.2.4
+asyncpg==0.29.0
+redis==5.0.8
+prometheus-fastapi-instrumentator==7.0.0
+python-dotenv==1.0.1
+pydantic==2.8.2
